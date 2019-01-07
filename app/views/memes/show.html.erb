@@ -14,7 +14,11 @@
   <p>
     <strong>Image:</strong>
     <br>
-    <%= image_tag @meme.image %>
+    <%#= image_tag @meme.image %>
+    <%= image_tag memes_image_path(@meme.image_slug) %>
+    <br>
+    <br>
+    <%= image_tag @meme.image.variant(resize: "100x100") %>
   </p>
 <% end %>
 
