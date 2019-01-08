@@ -1,18 +1,21 @@
 # This service takes an Attachment id and variant name
 # and returns an OpenStruct with the right data and content-type
 class FetchAttachment
-  attr_accessor :id, :variant
-
-  def initialize(id, variant)
+  def initialize(id, variant, format)
     @id = id
     @variant = variant || "default"
+    @format = format
   end
 
   def call
-    OpenStruct.new(
-      data: blob.service.download(blob_variant.key),
-      content_type: blob.content_type || DEFAULT_SEND_FILE_TYPE
-    )
+    if slug == canonical_slug
+      OpenStruct.new(
+        data: blob.service.download(blob_variant.key),
+        content_type: blob.content_type || DEFAULT_SEND_FILE_TYPE
+      )
+    else
+      OpenStruct.new(id: canonical_slug, variant: @variant)
+    end
   end
 
   private
@@ -23,6 +26,14 @@ class FetchAttachment
 
   def attachment
     @attachment ||= ActiveStorage::Attachment.find @id.split("-")[0]
+  end
+
+  def slug
+    "#{@id}.#{@format}"
+  end
+
+  def canonical_slug
+    @canonical_slug ||= image_klass.new(attachment.record).slug
   end
 
   def blob_variant
