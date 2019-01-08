@@ -15,10 +15,11 @@
     <strong>Image:</strong>
     <br>
     <%#= image_tag @meme.image %>
-    <%= image_tag memes_image_path(@meme.image_slug) %>
+    <%= image_tag MemeImage::Default.new(@meme).path %>
     <br>
     <br>
-    <%= image_tag @meme.image.variant(resize: "100x100") %>
+    <%#= image_tag @meme.image.variant(resize: "100x100") %>
+    <%= image_tag MemeImage::Thumbnail.new(@meme).path %>
   </p>
 <% end %>
 

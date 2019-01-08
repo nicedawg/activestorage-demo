@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root to: "memes#index"
 
   resources :memes
-  namespace :memes do
-    resources :images, only: :show
-  end
+
+  get 'images/:variant/:id', to: "attachments#show"
+  get 'images/:id', to: "attachments#show"
 end
