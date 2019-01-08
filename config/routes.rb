@@ -3,6 +3,5 @@ Rails.application.routes.draw do
 
   resources :memes
 
-  get 'images/:variant/:id', to: "attachments#show"
-  get 'images/:id', to: "attachments#show"
+  get 'images/:variant/:id', to: "attachments#show", as: :attachment
 end

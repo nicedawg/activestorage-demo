@@ -5,7 +5,7 @@ module MemeImage
     end
 
     def path
-      "/images/#{slug}"
+      "/images/default/#{slug}"
     end
 
     def slug
